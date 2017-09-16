@@ -129,7 +129,7 @@ void SetupRegSaves()
 		{
 			if (i != 31) add_func(currAddr, currAddr + 4);
 			else add_func(currAddr, currAddr + 0xC);
-			sprintf(funcName, "__Save_R12_%d_thru_31", i);
+			qsnprintf(funcName, 50, "__Save_R12_%d_thru_31", i);
 			set_name(currAddr, funcName);
 			currAddr += 4;
 		}
@@ -143,7 +143,7 @@ void SetupRegSaves()
 		{
 			if (i != 31) add_func(currAddr, currAddr + 4);
 			else add_func(currAddr, currAddr + 0xC);
-			sprintf(funcName, "__Rest_R12_lr_%d_thru_31", i);
+			qsnprintf(funcName, 50, "__Rest_R12_lr_%d_thru_31", i);
 			set_name(currAddr, funcName);
 			currAddr += 4;
 		}
@@ -641,7 +641,7 @@ void idaapi load_file(linput_t *_li, ushort /*neflag*/, const char * /*fileforma
 	msg("Done\n");
 }
 
-bool idaapi init_loader_options(linput_t*)
+bool idaapi init_loader_options(linput_t*, const load_info_t *loader)
 {
 	//set_processor_type("ppc", SETPROC_ALL | SETPROC_FATAL);
 	return true;
@@ -650,24 +650,24 @@ bool idaapi init_loader_options(linput_t*)
 loader_t LDSC =
 {
 	IDP_INTERFACE_VERSION,
-	0,                            // loader flags
-								  //
-								  //      check input file format. if recognized, then return 1
-								  //      and fill 'fileformatname'.
-								  //      otherwise return 0
-								  //
-								  accept_file,
-								  //
-								  //      load file into the database.
-								  //
-								  load_file,
-								  //
-								  //      create output file from the database.
-								  //      this function may be absent.
-								  //
-								  NULL,
-								  //      take care of a moved segment (fix up relocations, for example)
-								  NULL,
-								  //      initialize user configurable options based on the input file.
-								  init_loader_options,
+	0, //   loader flags
+	//
+	//      check input file format. if recognized, then return 1
+	//      and fill 'fileformatname'.
+	//      otherwise return 0
+	//
+	accept_file,
+	//
+	//      load file into the database.
+	//
+	load_file,
+	//
+	//      create output file from the database.
+	//      this function may be absent.
+	//
+	NULL,
+	//      take care of a moved segment (fix up relocations, for example)
+	NULL,
+	//      initialize user configurable options based on the input file.
+	init_loader_options,
 };

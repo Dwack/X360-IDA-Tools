@@ -11,7 +11,7 @@
 #include "fdi.h"
 #include "cryptlib\lzx.h"
 
-FILE _iob[] = { *stdin, *stdout, *stderr };
+FILE _iob[] = { *qfgets, *qprintf, *qeprintf };
 extern "C" FILE * __cdecl __iob_func(void) { return _iob; }
 
 
